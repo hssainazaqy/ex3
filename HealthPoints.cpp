@@ -2,59 +2,141 @@
 
 
 
-HealthPoints HealthPoints::operator+(int health_add) 
+
+
+HealthPoints::HealthPoints(int _health_points)
+        :m_health_points(_health_points), m_max_health_points(_health_points){
+
+    if(m_health_points <= 0){
+        throw HealthPoints::InvalidArgument();
+    }
+}
+
+
+HealthPoints& HealthPoints::operator+=(int add)
+{
+    m_health_points += add;
+    if(m_health_points < 0){
+        m_health_points = 0;
+    }
+    if(m_health_points > m_max_health_points){
+        m_health_points = m_max_health_points;
+    }
+    return *this;
+}
+
+
+HealthPoints& HealthPoints::operator-= (int remove)
+{
+    m_health_points -= remove;
+    if(m_health_points < 0){
+        m_health_points = 0;
+    }
+    if(m_health_points > m_max_health_points) {
+        m_health_points = m_max_health_points;
+    }
+    return *this;
+}
+
+
+HealthPoints& HealthPoints::operator+(int health_add)
 {
     return (*this += health_add);
 }
-//------------------------------------------------------------------
-HealthPoints HealthPoints::operator-(int health_remove) 
-{
-    return (*this -= health_remove);
-}
-//------------------------------------------------------------------
-HealthPoints HealthPoints::operator+=(int add)
-{
-    this->health_points += add;
-    return *this;
-}
-//------------------------------------------------------------------
-HealthPoints HealthPoints::operator-= (int remove)
-{
-    this->health_points -= remove;
-    return *this;
-}
-//------------------------------------------------------------------
-HealthPoints operator+(int add, HealthPoints& obj)
+
+HealthPoints& operator+(int add, HealthPoints& obj)
 {
     return obj += add;
 }
-//------------------------------------------------------------------
+HealthPoints& HealthPoints::operator-(int health_remove)
+{
+    return (*this -= health_remove);
+}
 bool HealthPoints::operator== (const HealthPoints& other) const
 {
-    return(this->health_points == other.health_points);
+    return(m_health_points == other.m_health_points);
 }
-//------------------------------------------------------------------
 bool HealthPoints::operator>= (const HealthPoints& other) const
 {
-    return (this->health_points >= other.health_points);
+    return (m_health_points >= other.m_health_points);
 }
-//------------------------------------------------------------------
 bool HealthPoints::operator<= (const HealthPoints& other) const
 {
-    return (this->health_points <= other.health_points);
+    return (m_health_points <= other.m_health_points);
 }
-//------------------------------------------------------------------
 bool HealthPoints::operator!= (const HealthPoints& other) const
 {
-    return (this->health_points != other.health_points);
+    return (m_health_points != other.m_health_points);
 }
-//------------------------------------------------------------------
 bool HealthPoints::operator> (const HealthPoints& other) const
 {
-    return (this->health_points > other.health_points);
+    return (m_health_points > other.m_health_points);
 }
-//------------------------------------------------------------------
 bool HealthPoints::operator< (const HealthPoints& other) const
 {
-    return (this->health_points < other.health_points);
+    return (m_health_points < other.m_health_points);
+}
+
+
+
+
+
+
+
+bool operator==(const HealthPoints& obj, int compare)
+{
+    return(obj.m_health_points == compare);
+}
+bool operator==(int compare, const HealthPoints& obj)
+{
+    return (obj == compare);
+}
+
+bool operator!= (const HealthPoints& obj, int compare)
+{
+    return(obj.m_health_points != compare);
+}
+bool operator!= (int compare, const HealthPoints& obj)
+{
+    return(obj != compare);
+}
+
+bool operator>= (const HealthPoints& obj, int compare)
+{
+    return(obj.m_health_points >= compare);
+}
+bool operator>= (int compare, const HealthPoints& obj)
+{
+    return(obj <= compare);
+}
+
+bool operator<= (const HealthPoints& obj, int compare)
+{
+    return(obj.m_health_points <= compare);
+}
+bool operator<= (int compare, const HealthPoints& obj)
+{
+    return(obj >= compare);
+}
+
+bool operator> (const HealthPoints& obj, int compare)
+{
+    return(obj.m_health_points > compare);
+}
+bool operator> (int compare, const HealthPoints& obj)
+{
+    return(obj < compare);
+}
+
+bool operator< (const HealthPoints& obj, int compare)
+{
+    return(obj.m_health_points < compare);
+}
+bool operator< (int compare, const HealthPoints& obj)
+{
+    return(obj > compare);
+}
+
+ostream& operator<<(ostream& os, const HealthPoints& obj) {
+    return os << obj.m_health_points << "(" << obj.m_max_health_points << ")";
 }

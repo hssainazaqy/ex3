@@ -304,16 +304,17 @@ Queue<T>::ConstIterator::ConstIterator(const Queue<T>* other, int index) :
 
 //----------------------------------------------
 template <  class T , class S>
-Queue<T> filter(Queue<T>& object, S condition)
+Queue<T> filter(const Queue<T>& object, S condition)
 {
-    Queue<T> queue;// = new Queue<T>();
-    for(typename Queue<T>::Iterator it = object.begin();it != object.end();it++){
+    Queue<T> queue;//= new Queue<T>();
+    for(typename Queue<T>::ConstIterator it = object.begin();it != object.end();it++){
         if(condition(*it)){
             queue.pushBack(*it);
         }
     }
     return queue;
 }
+
 //----------------------------------------------
 template <  class T , class S>
 void transform(Queue<T>& queue, S condition)
